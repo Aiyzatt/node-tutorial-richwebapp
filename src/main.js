@@ -34,7 +34,7 @@ const app = http.createServer((request, response) => {
             "Content-Type": "text/html"
         });
         response.end(`Not found : ${request.url}`);
-        console.log();
+        console.log('No file is found.');
     }
 });
 
