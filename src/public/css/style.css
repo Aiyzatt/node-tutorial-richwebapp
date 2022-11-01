@@ -1,0 +1,23 @@
+h1 {
+  font-weight: normal;
+  color: blue;
+}
+
+h2 {
+  color: darkblue;
+}
+
+p {
+  color: dodgerblue;
+}
+
+.flex {
+  display: flex;
+  width: 50%;
+}
+
+.flex .img {
+  width: 240px;
+  object-fit: contain;
+  margin-right: 32px;
+}
