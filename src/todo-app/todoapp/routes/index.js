@@ -1,8 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const mysql = require('mysql');
 const knex = require('../db/knex');
-const knexfile = require('../knexfile');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
