@@ -6,11 +6,14 @@
   </head>
   <body>
     <h1><%= title %></h1>
-    <p>やること記入 → 追加だけ!</p>
+    <p>user_id = <%= user_id %>のタスクを表示中 %></p>
     
     <form action="/" method="post">
       <label>タスクの追加</label>
-      <input required type="text" name="todo" placeholder="何をする?"/>
+      <br>
+      user_id: <input required type="number" name="user_id" placeholder="user_id" value="1" min="1"/>
+      <br>
+      content: <input required type="text" name="todo" placeholder="何をする?"/>
       <input type="submit" value="追加"/>
     </form>
     <ul>
