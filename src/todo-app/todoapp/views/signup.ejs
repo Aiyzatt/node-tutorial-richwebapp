@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+  <title><%= title %></title>
+</head>
+<body>
+  <h1><%= title %></h1>
+  <p>ユーザ登録をするページ</p>
+
+  <form action="/signup" method="post">
+    <label>ユーザ名</label>
+    <input required type="text" name="username"/>
+    <br>
+    <label>パスワード</label>
+    <input required type="password" name="password"/>
+    <br>
+    <label>パスワード再入力</label>
+    <input required type="text" name="repassword"/>
+    <br>
+    <input type="submit" value="Sign up"/>
+  </form>
+</body>
+</html>

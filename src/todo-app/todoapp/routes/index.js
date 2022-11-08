@@ -45,4 +45,7 @@ router.post('/', function(req, res, next) {
     });
 });
 
+/* app.jsの肥大化を避けるためにindex.jsに記述 */
+router.use('/signup', require('./signup'));
+
 module.exports = router;
