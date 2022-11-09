@@ -1,0 +1,16 @@
+<style>
+  nav a {
+    background: #333;
+    color: #fff;
+    padding: 0px 4px;
+  }
+</style>
+<nav>
+  <a href="/">toppage</a>
+  <% if(isAuth) { %>
+    <a href="/logout">signout</a>
+  <% } else { %>
+    <a href="/signin">signin</a>
+    <a href="/signup">signup as a new member</a>
+  <% } %>
+</nav>

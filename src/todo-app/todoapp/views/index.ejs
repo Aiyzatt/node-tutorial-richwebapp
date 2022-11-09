@@ -5,21 +5,28 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
+    <header>
+      <%- include('./header'); %>
+    </header>
+    <%- include('./error_messages'); %>
     <h1><%= title %></h1>
-    <p>user_id = <%= user_id %>のタスクを表示中 %></p>
     
-    <form action="/" method="post">
-      <label>タスクの追加</label>
-      <br>
-      user_id: <input required type="number" name="user_id" placeholder="user_id" value="1" min="1"/>
-      <br>
-      content: <input required type="text" name="todo" placeholder="何をする?"/>
-      <input type="submit" value="追加"/>
-    </form>
-    <ul>
-      <% for(let todo of todos) { %>
-        <li><span><%= todo.content %></span></li>
-      <% } %>
-    </ul>
+    <% if(isAuth) { %>
+      <p>userId: <%= userId %></p>
+      <form action="/" method="post">
+        <label>タスクの追加</label>
+        <br>
+        <input required type="text" name="todo" placeholder="何をする?"/>
+        <input type="submit" value="追加"/>
+      </form>
+      <ul>
+        <% for(let todo of todos) { %>
+          <li><span><%= todo.content %></span></li>
+        <% } %>
+      </ul>
+    <% } else { %>
+      <h1>Welcome to the TodoApp</h1>
+      <a href="/signup">Sign up now!</a>
+    <% } %>
   </body>
 </html>

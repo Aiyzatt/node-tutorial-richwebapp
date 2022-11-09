@@ -4,12 +4,20 @@ const knex = require('../db/knex');
 const title = 'Sign up';
 
 router.get('/', function (req, res, next) {
+  const userId = req.session.userid;
+  const isAuth = Boolean(userId);
+
+  if(isAuth) { res.redirect('/'); };
+
   res.render('signup', {
     title: title,
+    isAuth: isAuth,
   });
 });
 
 router.post('/', function (req, res, next) {
+  const userId = req.session.userid;
+  const isAuth = Boolean(userId);
   const username = req.body.username;
   const password = req.body.password;
   const repassword = req.body.repassword;
@@ -21,23 +29,27 @@ router.post('/', function (req, res, next) {
       if(results.length !== 0) {
         res.render('signup', {
           title: title,
+          isAuth: isAuth,
           errorMessage: ['このユーザ名は既に使われています'],
         });
       } else if(password !== repassword) {
         res.render('signup', {
           title: title,
+          isAuth: isAuth,
           errorMessage: ['パスワードが一致しません'],
         });
       } else { // バリデーションクリアの場合
         knex('users')
           .insert({name: username, password: password})
-          .then(() => {
+          .then((results) => {
+            req.session.userid = results[0];
             res.redirect('/');
           })
           .catch((error) => {
             console.error(error);
             res.render('signup', {
               title: title,
+              isAuth: isAuth,
               errorMessage: [error.sqlMessage],
             });
           });
@@ -47,7 +59,8 @@ router.post('/', function (req, res, next) {
       console.log('error');
       res.render('signup', {
         title: title,
-        errorMessage: error.sqlMessage,
+        isAuth, isAuth,
+        errorMessage: [error.sqlMessage],
       });
     });
 });
