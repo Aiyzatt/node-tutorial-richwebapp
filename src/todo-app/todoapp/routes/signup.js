@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const knex = require('../db/knex');
+const bcrypt = require('bcrypt');
 const title = 'Sign up';
 
 router.get('/', function (req, res, next) {
@@ -25,7 +26,7 @@ router.post('/', function (req, res, next) {
   knex('users')
     .select('*')
     .where('name', username)
-    .then((results) => {
+    .then(async (results) => {
       if(results.length !== 0) {
         res.render('signup', {
           title: title,
@@ -39,8 +40,9 @@ router.post('/', function (req, res, next) {
           errorMessage: ['パスワードが一致しません'],
         });
       } else { // バリデーションクリアの場合
+        const hashedPassword = await bcrypt.hash(password, 10);
         knex('users')
-          .insert({name: username, password: password})
+          .insert({name: username, password: hashedPassword})
           .then((results) => {
             req.session.userid = results[0];
             res.redirect('/');

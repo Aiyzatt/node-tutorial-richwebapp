@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const knex = require('../db/knex');
+const bcrypt = require('bcrypt');
 const title = 'Sign ip';
 
 router.get('/', function (req, res, next) {
@@ -24,18 +25,25 @@ router.post('/', function (req, res, next) {
     .select('*')
     .where({
       name: username,
-      password: password,
     })
-    .then((results) => {
+    .then(async (results) => {
       if(results.length === 0) {
         res.render('signin', {
           title: title,
           isAuth, isAuth,
-          errorMessage: ["ユーザが見つかりません"],
+          errorMessage: ['ユーザ名かパスワード、またはその両方に誤りがあります'],
         });
       } else { // 認証OKの場合
-        req.session.userid = results[0].id;
-        res.redirect('/');
+        if(await bcrypt.compare(password, results[0].password)) {
+          req.session.userid = results[0].id;
+          res.redirect('/');
+        } else {
+          res.render('signin', {
+            title: title,
+            isAuth, isAuth,
+            errorMessage: ['ユーザ名かパスワード、またはその両方に誤りがあります'],
+          });
+        }
       }
     })
     .catch((error) => {
