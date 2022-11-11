@@ -3,6 +3,8 @@ const LocalStrategy = require('passport-local');
 const knex = require('../db/knex');
 const bcrypt = require('bcrypt');
 const User = require('../models/user');
+const cookieSession = require('cookie-session');
+const secret = 'Ca3VMru5XJYBFYWg';
 
 module.exports = (app) => {
   passport.serializeUser((user, done) => {
@@ -43,4 +45,15 @@ module.exports = (app) => {
       return done(null, false, {message: error.toString()});
     });
   }));
+
+  // Cookie session
+  app.use(
+    cookieSession({
+      name: 'session',
+      keys: [secret],
+
+      // Cookie Options
+      maxAge: 24 * 60 * 60 * 1000, // 24 hours
+    })
+  );
 };
