@@ -5,8 +5,7 @@ const bcrypt = require('bcrypt');
 const title = 'Sign up';
 
 router.get('/', function (req, res, next) {
-  const userId = req.session.userid;
-  const isAuth = Boolean(userId);
+  const isAuth = req.isAuthenticated();
 
   if(isAuth) { res.redirect('/'); };
 
@@ -17,8 +16,7 @@ router.get('/', function (req, res, next) {
 });
 
 router.post('/', function (req, res, next) {
-  const userId = req.session.userid;
-  const isAuth = Boolean(userId);
+  const isAuth = req.isAuthenticated();
   const username = req.body.username;
   const password = req.body.password;
   const repassword = req.body.repassword;

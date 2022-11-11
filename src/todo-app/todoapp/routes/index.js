@@ -5,8 +5,8 @@ const title = 'Todo App';
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  const userId = req.session.userid;
-  const isAuth = Boolean(userId);
+  const isAuth = req.isAuthenticated();
+  const userId = (typeof req.user !== 'undefined') ? req.user.id : null;
 
   knex('tasks')
     .select('*')
@@ -33,8 +33,8 @@ router.get('/', function(req, res, next) {
 
 /* POST home page. */
 router.post('/', function(req, res, next) {
-  const userId = req.session.userid;
-  const isAuth = Boolean(userId);
+  const isAuth = req.isAuthenticated();
+  const userId = req.user.id;
   const todo = req.body.todo;
 
   knex('tasks')
