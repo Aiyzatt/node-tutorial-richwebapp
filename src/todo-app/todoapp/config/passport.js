@@ -3,7 +3,7 @@ const LocalStrategy = require('passport-local');
 const knex = require('../db/knex');
 const bcrypt = require('bcrypt');
 const User = require('../models/user');
-const cookieSession = require('cookie-session');
+const expressSession = require('express-session');
 const secret = 'Ca3VMru5XJYBFYWg';
 
 module.exports = (app) => {
@@ -48,12 +48,15 @@ module.exports = (app) => {
 
   // Cookie session
   app.use(
-    cookieSession({
+    expressSession({
       name: 'session',
-      keys: [secret],
-
+      secret: secret,
+      resave: false,
+      saveUninitialized: true,
       // Cookie Options
-      maxAge: 24 * 60 * 60 * 1000, // 24 hours
+      cookie: {
+        maxAge: 24 * 60 * 60 * 1000, // 24 hours
+      }
     })
   );
   
